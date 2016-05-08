@@ -387,13 +387,13 @@ plt.scatter(X[0,:],X[1,:],c=y,lw=.3,s=3,cmap=plt.cm.cool)
 plt.axis([-6,6,-6,6])
 plt.show()
 
-#首先，设置每层的大小和层数
-#输入层的大小是训练数据的维数
-# 输出大小是一维的，类标签：0或1
-# 最后，让隐层是输出的两倍
-# 如果我们要更多的层，可以在这个list里添加另外的层的大小
+# First, set the size of each layer (and the number of layers)
+# Input layer size is training data dimensionality (2)
+# Output size is just 1-d: class label - 0 or 1
+# Finally, let the hidden layers be twice the size of the input.
+# If we wanted more layers, we could just add another layer size to this list.
 layer_sizes = [X.shape[0], X.shape[0]*2, 1]
-# 初始化参数的值
+# Set initial parameter values
 W_init = []
 b_init = []
 activations = []
@@ -408,10 +408,10 @@ for n_input, n_output in zip(layer_sizes[:-1], layer_sizes[1:]):
     # Note that this doesn't make a ton of sense when using squared distance
     # because the sigmoid function is bounded on [0, 1].
     activations.append(T.nnet.sigmoid)
-# 创建MLP类的实例
+# Create an instance of the MLP class
 mlp = MLP(W_init, b_init, activations)
 
-# 为MLP的输入创建theano变量
+# Create Theano variables for the MLP input
 mlp_input = T.matrix('mlp_input')
 # ... and the desired output
 mlp_target = T.vector('mlp_target')
