@@ -196,3 +196,14 @@ list里的任何的Theano变量都会自动的包装成`taps`为`[0]`的dictiona
 `updates`是字典的子类，具体化了scan中使用的shared变量的updates规则。
 这个字典应该传递给`theano.function`。与标准的字典的不同是，我们验证了keys是SharedVariable，ddition of those dictionary are validated to be consistent.
 `
+
+##注意
+-------------------------
+1. scan的sequence的第一维总是时间维，如果要使用minibatch要把第一维dimshuffle为时间维
+2. 可以使用T.alloc实现动态大小的初始状态，比如：
+```python
+ [self.h, self.y_pred], _ = theano.scan(step,
+                    sequences=self.input,
+                    outputs_info=[T.alloc(self.h0, self.input.shape[1],
+                                          n_hidden), None])
+```
