@@ -200,6 +200,17 @@ list里的任何的Theano变量都会自动的包装成`taps`为`[0]`的dictiona
 ##注意
 -------------------------
 1. scan的sequence的第一维总是时间维，如果要使用minibatch要把第一维dimshuffle为时间维
+  <pre>
+    #dimshuffle是reshape张量的工具
+    #dimshuffle可以对dim进行重新洗牌，也可以插入可广播的新的dim,
+    #例如：dimshuffle('x',2,'x',0,1): 可以作用在没有boradcatable维的3d张量上，
+    #'x'表示插入新的维，这样第一维将会是可广播的。如果原来的tensor的shape是(1,40,1,20,30)，
+    #dimshuffle后的tensor为(1,40,1,20,30)。(AxBxC的张量变成1xCx1xAxB)
+    #更多的例子：
+    # dimshuffle('x') -> 0d(scalar)转换成1d向量
+    # dimshuffle(1,0) -> 交换第一维和第二维
+    # dimshuffle('x',0) -> N to 1xN
+  </pre>
 2. 可以使用T.alloc实现动态大小的初始状态，比如：
 ```python
  [self.h, self.y_pred], _ = theano.scan(step,
